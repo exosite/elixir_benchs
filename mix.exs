@@ -1,3 +1,12 @@
+defmodule Mix.Tasks.Compile.IsoFormat do
+  @shortdoc "Compiles IsoFormat"
+
+  def run(_) do
+      {result, _error_code} = System.cmd("sh", ["build_isoformat.sh"], stderr_to_stdout: true)
+      Mix.shell.info result
+  end
+end
+
 defmodule IsoTimeFormatting.Mixfile do
   use Mix.Project
 
@@ -5,6 +14,7 @@ defmodule IsoTimeFormatting.Mixfile do
     [app: :iso_time_formatting,
      version: "0.1.0",
      elixir: "~> 1.4",
+     compilers: [:iso_format, :elixir, :app],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps()]

@@ -44,6 +44,9 @@ HARNESS_DEPS = \
 
 .PHONY: check-asan test gcov cover clean
 
+../priv/isoformat.so: isoformat.c $(OBJECTS)
+	$(CC) -fpic -shared -I$(ERL_INCLUDE_PATH) isoformat.c $(OBJECTS) -o ../priv/isoformat.so
+
 .o.t:
 	$(CC) $(LDFLAGS) $< $(HARNESS_DEPS) -o $@
 
@@ -81,9 +84,6 @@ cover:
 	@$(GCOV) -abc $(SOURCES) 
 	@gcov2perl *.gcov
 	@cover --no-gcov
-
-isoformat.so: isoformat.c $(OBJECTS)
-	gcc -fpic -shared -I$(ERL_INCLUDE_PATH) isoformat.c $(OBJECTS) -o isoformat.so
 
 clean:
 	rm -f $(HARNESS_DEPS) $(HARNESS_OBJS) $(HARNESS_EXES) *.gc{ov,da,no} t/*.gc{ov,da,no}

@@ -1,5 +1,6 @@
 #include "erl_nif.h"
 #include "timestamp.h"
+//#include <string.h>
 
 static ERL_NIF_TERM
 isoformat(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]) {
@@ -11,6 +12,10 @@ isoformat(ErlNifEnv *env, int argc, const ERL_NIF_TERM argv[]) {
   t.offset = 0;
   char isostring[256];
   size_t ret = timestamp_format(isostring, 255, &t);
+  //ErlNifBinary ibin;
+  //enif_alloc_binary(ret, &ibin);
+  //memcpy(ibin.data, isostring, ret);
+  //return enif_make_binary(env, &ibin);
   return enif_make_string(env, isostring, ERL_NIF_LATIN1);
 }
 
