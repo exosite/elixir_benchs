@@ -28,6 +28,9 @@ defmodule IsoTimeFormatting.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:timex, "~> 3.0"},
+      {:benchee, "~> 0.11.0", only: :dev}
+    ]
   end
 end
