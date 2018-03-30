@@ -2,7 +2,7 @@ defmodule FastIso do
   @on_load :load_nifs
 
   def load_nifs do
-    :erlang.load_nif('./isoformat', 0)
+    :erlang.load_nif('./priv/isoformat', 0)
   end
 
   def formatiso(_a) do

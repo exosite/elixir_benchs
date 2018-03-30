@@ -1,3 +1,3 @@
 #!/bin/bash
-cd c-timestamp
-make
+cd c-timestamp || exit 1
+make ../priv/isoformat.so

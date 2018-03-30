@@ -4,6 +4,12 @@ CC      = cc
 GCOV    = gcov
 CFLAGS  = $(DCFLAGS) -Wall -fpic -I. -I..
 LDFLAGS += -lc $(DLDFLAGS)
+UNAME_SYS := $(shell uname -s)
+ifeq ($(UNAME_SYS), Darwin)
+	# CFLAGS += -O3 -std=c99 -arch x86_64 -finline-functions -Wall -Wmissing-prototypes
+	# CXXFLAGS += -O3 -arch x86_64 -finline-functions -Wall
+	LDFLAGS += -arch x86_64 -flat_namespace -undefined suppress
+endif
 
 SOURCES = \
 	timestamp_compare.c \
@@ -45,7 +51,7 @@ HARNESS_DEPS = \
 .PHONY: check-asan test gcov cover clean
 
 ../priv/isoformat.so: isoformat.c $(OBJECTS)
-	$(CC) -fpic -shared -I$(ERL_INCLUDE_PATH) isoformat.c $(OBJECTS) -o ../priv/isoformat.so
+	$(CC) $(LDFLAGS) -fpic -shared -I$(ERL_INCLUDE_PATH) isoformat.c $(OBJECTS) -o ../priv/isoformat.so
 
 .o.t:
 	$(CC) $(LDFLAGS) $< $(HARNESS_DEPS) -o $@
@@ -68,7 +74,7 @@ t/parse_malformed.o: \
 t/tm.o: \
 	$(HARNESS_DEPS) t/tm.c
 
-test: $(HARNESS_EXES) 
+test: $(HARNESS_EXES)
 	@prove $(HARNESS_EXES)
 
 check-asan:
@@ -81,10 +87,9 @@ gcov:
 
 cover:
 	@$(MAKE) DCFLAGS="-O0 -g --coverage" DLDFLAGS="-coverage" test
-	@$(GCOV) -abc $(SOURCES) 
+	@$(GCOV) -abc $(SOURCES)
 	@gcov2perl *.gcov
 	@cover --no-gcov
 
 clean:
 	rm -f $(HARNESS_DEPS) $(HARNESS_OBJS) $(HARNESS_EXES) *.gc{ov,da,no} t/*.gc{ov,da,no}
-
