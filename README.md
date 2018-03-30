@@ -1,6 +1,8 @@
 # IsoTimeFormatting
 Benchmarking the iso8601 time formatting.
 
+1519875343417238 => "2018-03-01T03:35:43.417238Z"
+
 ## Prerequisite
 - Elixir 1.4.5
 - Erlang/OTP 19
