@@ -1,6 +1,7 @@
 
 current_time = :os.system_time(:microsecond)
-input_datas = Enum.map(1..10_000, fn _ -> current_time + Enum.random(1..1000_000) end)
+input_datas = Enum.map(1..1000, fn _ -> current_time + Enum.random(1..100_000_000_000) end)
+|> Enum.sort()
 
 timex_format = fn ->
   Enum.each(input_datas, fn time ->
@@ -51,12 +52,47 @@ erlang_binary_compose = fn ->
   end)
 end
 
+progressiv_erlang_binary_compose = fn ->
+  Enum.reduce(input_datas, {0, ''}, fn (time, {last, day_string}) ->
+    case div(time, 86_400_000_000) do
+      ^last ->
+        # time = div(time, 1000)
+        h_ms = rem(time, 86_400_000_000)
+        m_ms = rem(h_ms, 3600_000_000)
+        s_ms = rem(m_ms, 60_000_000)
+        c = rem(s_ms, 1_000_000) |> :erlang.integer_to_list() |> :string.right(6, ?0) |> :erlang.list_to_binary
+        sec = div(s_ms, 1_000_000)
+        min = div(m_ms, 60_000_000)
+        hr = div(h_ms, 3600_000_000)
+      other ->
+        <<a :: binary-size(4), b :: binary-size(6), c :: binary-size(6)>> = time |> Integer.to_string
+        us = String.to_integer(c)
+        {{year, month, day}, {hr, min, sec}} = :calendar.now_to_datetime(
+          {String.to_integer(a), String.to_integer(b), us}
+        )
+        year_b = year |> :erlang.integer_to_binary
+        month_b = :erlang.integer_to_list(month) |> :string.right(2, ?0) |> :erlang.list_to_binary
+        day_b = :erlang.integer_to_list(day) |> :string.right(2, ?0) |> :erlang.list_to_binary
+        day_string = <<year_b :: binary-size(4), "-", month_b :: binary-size(2), "-", day_b :: binary-size(2), "T">>
+        last = other
+    end
+
+    hr_b = :erlang.integer_to_list(hr) |> :string.right(2, ?0) |> :erlang.list_to_binary
+    min_b = :erlang.integer_to_list(min) |> :string.right(2, ?0) |> :erlang.list_to_binary
+    sec_b = :erlang.integer_to_list(sec) |> :string.right(2, ?0) |> :erlang.list_to_binary
+
+    <<day_string :: binary-size(11), hr_b :: binary-size(2), ":", min_b :: binary-size(2), ":", sec_b :: binary-size(2), ".", c :: binary-size(6), "+00:00">>
+    {last, day_string}
+  end)
+end
+
 # Start benchmark
 Benchee.run(%{
   "Timex formater" => timex_format,
   "Elixir DateTime.to_iso8601" => elixir_datetime,
   "Erlang io_lib:format" => erlang_io_format,
   "Elixir string compose" => elixir_string_compose,
-  "Erlang string compose" => erlang_binary_compose
+  "Erlang string compose" => erlang_binary_compose,
+  "Progressiv Erlang string compose" => progressiv_erlang_binary_compose,
 }, time: 10, formatter_options: %{console: %{extended_statistics: true}}
 )
