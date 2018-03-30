@@ -26,7 +26,7 @@ end
 
 elixir_string_compose = fn ->
   Enum.each(input_datas, fn time ->
-    <<mega_secs :: binary-size(4), secs :: binary-size(6), micro_secs :: binary-size(6)>> = time |> Integer.to_string
+    <<mega_secs :: binary-size(4), secs :: binary-size(6), micro_secs :: binary-size(6)>> = time |> Integer.to_string |> String.rjust(16, ?0)
     {{year, month, day}, {hr, min, sec}} = :calendar.now_to_datetime(
       {String.to_integer(mega_secs), String.to_integer(secs), String.to_integer(micro_secs)}
     )
@@ -36,7 +36,7 @@ end
 
 erlang_binary_compose = fn ->
   Enum.each(input_datas, fn time ->
-    <<mega_secs :: binary-size(4), secs :: binary-size(6), micro_secs :: binary-size(6)>> = time |> Integer.to_string
+    <<mega_secs :: binary-size(4), secs :: binary-size(6), micro_secs :: binary-size(6)>> = time |> Integer.to_string |> String.rjust(16, ?0)
     {{year, month, day}, {hr, min, sec}} = :calendar.now_to_datetime(
       {String.to_integer(mega_secs), String.to_integer(secs), String.to_integer(micro_secs)}
     )
@@ -72,7 +72,7 @@ progressiv_erlang_binary_compose = fn ->
         min = div(m_ms, 60_000_000)
         hr = div(h_ms, 3600_000_000)
       other ->
-        <<mega_secs :: binary-size(4), secs :: binary-size(6), micro_secs :: binary-size(6)>> = time |> Integer.to_string
+        <<mega_secs :: binary-size(4), secs :: binary-size(6), micro_secs :: binary-size(6)>> = time |> Integer.to_string |> String.rjust(16, ?0)
         {{year, month, day}, {hr, min, sec}} = :calendar.now_to_datetime(
           {String.to_integer(mega_secs), String.to_integer(secs), String.to_integer(micro_secs)}
         )
