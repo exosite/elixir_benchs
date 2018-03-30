@@ -14,6 +14,18 @@ elixir_datetime = fn ->
   end)
 end
 
+elixir_c = fn ->
+  Enum.each(input_datas, fn time ->
+    FastIso.formatiso(time)
+  end)
+end
+
+elixir_c_string = fn ->
+  Enum.each(input_datas, fn time ->
+    List.to_string(FastIso.formatiso(time))
+  end)
+end
+
 erlang_io_format = fn ->
   Enum.each(input_datas, fn time ->
     %DateTime{day: day, hour: hr, microsecond: {us, _}, minute: min, month: month, second: sec, year: year} = DateTime.from_unix!(time, :microseconds)
@@ -57,6 +69,8 @@ Benchee.run(%{
   "Elixir DateTime.to_iso8601" => elixir_datetime,
   "Erlang io_lib:format" => erlang_io_format,
   "Elixir string compose" => elixir_string_compose,
-  "Erlang string compose" => erlang_binary_compose
+  "Erlang string compose" => erlang_binary_compose,
+  "Elixir nilf" => elixir_c,
+  "Elixir nilf string" => elixir_c_string
 }, time: 10, formatter_options: %{console: %{extended_statistics: true}}
 )
