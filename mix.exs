@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.Compile.IsoFormat do
-  @shortdoc "Compiles IsoFormat"
-
+  @moduledoc "Compiles IsoFormat"
+  
   def run(_) do
       {result, _error_code} = System.cmd("sh", ["build_isoformat.sh"], stderr_to_stdout: true)
       Mix.shell.info result
