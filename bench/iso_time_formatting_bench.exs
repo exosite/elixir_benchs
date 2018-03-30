@@ -105,8 +105,8 @@ Benchee.run(%{
   "Erlang io_lib:format" => erlang_io_format,
   "Elixir string compose" => elixir_string_compose,
   "Erlang string compose" => erlang_binary_compose,
-  "Elixir nilf" => elixir_c,
-  "Elixir nilf string" => elixir_c_string,
+  "Elixir nif" => elixir_c,
+  "Elixir nif string" => elixir_c_string,
   "Progressiv Erlang string compose" => progressiv_erlang_binary_compose
 }, time: 10, formatter_options: %{console: %{extended_statistics: true}}
 )
