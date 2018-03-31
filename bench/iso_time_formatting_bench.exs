@@ -67,34 +67,38 @@ progressiv_erlang_binary_compose = fn ->
         h_ms = rem(time, 86_400_000_000)
         m_ms = rem(h_ms, 3600_000_000)
         s_ms = rem(m_ms, 60_000_000)
-        micro_secs = rem(s_ms, 1_000_000) |> :erlang.integer_to_list() |> :string.right(6, ?0) |> :erlang.list_to_binary
         sec = div(s_ms, 1_000_000)
         min = div(m_ms, 60_000_000)
         hr = div(h_ms, 3600_000_000)
       other ->
-        <<mega_secs :: binary-size(4), secs :: binary-size(6), micro_secs :: binary-size(6)>> = time |> Integer.to_string |> String.rjust(16, ?0)
+        secs = div(time, 1_000_000)
         {{year, month, day}, {hr, min, sec}} = :calendar.now_to_datetime(
-          {String.to_integer(mega_secs), String.to_integer(secs), String.to_integer(micro_secs)}
-        )
+          {div(secs, 1_000_000), rem(secs, 1_000_000), 0})
         year_b = year |> :erlang.integer_to_binary
-        month_b = :erlang.integer_to_list(month) |> :string.right(2, ?0) |> :erlang.list_to_binary
-        day_b = :erlang.integer_to_list(day) |> :string.right(2, ?0) |> :erlang.list_to_binary
-        day_string = <<year_b :: binary-size(4), "-", month_b :: binary-size(2), "-", day_b :: binary-size(2), "T">>
+        day_string = <<
+        year_b :: binary-size(4),
+        "-",
+        div(month, 10) + 48,
+        rem(month, 10) + 48,
+        "-",
+        div(day, 10) + 48,
+        rem(day, 10) + 48,
+        "T">>
         last = other
     end
-
-    hr_b = :erlang.integer_to_list(hr) |> :string.right(2, ?0) |> :erlang.list_to_binary
-    min_b = :erlang.integer_to_list(min) |> :string.right(2, ?0) |> :erlang.list_to_binary
-    sec_b = :erlang.integer_to_list(sec) |> :string.right(2, ?0) |> :erlang.list_to_binary
-
-    <<
-      day_string :: binary-size(11),
-      hr_b :: binary-size(2),
-      ":", min_b :: binary-size(2),
-      ":", sec_b :: binary-size(2),
-      ".", micro_secs :: binary-size(6),
-      "+00:00"
-    >>
+    <<_ :: binary-size(1), c :: binary-size(6)>> = :erlang.integer_to_binary(1_000_000 + rem(time, 1_000_000))
+    <<day_string :: binary-size(11),
+    div(hr, 10) + 48,
+    rem(hr, 10) + 48,
+    ":",
+    div(min, 10) + 48,
+    rem(min, 10) + 48,
+    ":",
+    div(sec, 10) + 48,
+    rem(sec, 10) + 48,
+    ".",
+    c :: binary-size(6),
+    "+00:00">>
     {last, day_string}
   end)
 end
