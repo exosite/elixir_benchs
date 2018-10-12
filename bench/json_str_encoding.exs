@@ -67,6 +67,28 @@ jiffy_obj = fn ->
   end)
 end
 
+jiffy_obj_atom = fn ->
+  Enum.map(1..1000, fn numb ->
+    numb = Integer.to_string(numb)
+    :jiffy.encode(%{type: "call",
+    severity: severity,
+    timestamp: numb,
+    elapsed: numb,
+    tracking_id: severity,
+    solution_id: severity,
+    service: severity,
+    service_type: severity,
+    event: severity,
+    message: numb,
+    code: numb,
+    data: %{
+      processing_time: numb,
+      data_in: numb,
+      data_out: numb,
+    }}, [:use_nil])
+  end)
+end
+
 inspect_obj = fn ->
   Enum.map(1..1000, fn numb ->
     numb = Integer.to_string(numb)
@@ -92,6 +114,7 @@ end
 # Start benchmark
 Benchee.run(%{
   "jiffy" => jiffy_obj,
+  "jiffy_obj_atom" => jiffy_obj_atom,
   "inspect" => inspect_obj,
   "list" => list_obj,
   "string" => string_obj
