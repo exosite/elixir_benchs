@@ -87,6 +87,23 @@ end
 
 bag_take = fn ->
   Enum.map(1..1000, fn key ->
+    :ets.insert(:bag, {key, key, 1})
+    :ets.insert(:bag, {key, key, 2})
+    :ets.insert(:bag, {key, key, 3})
+    :ets.insert(:bag, {key, key, 4})
+  end)
+  Enum.map(1..1000, fn key ->
+    case :ets.take(:bag, key) do
+      [] -> nil
+      result when is_list(result) ->
+        Enum.map(result, &({&1, 0}))
+      _ -> raise "expected only a single element with key "
+    end
+  end)
+end
+
+bag_one_take = fn ->
+  Enum.map(1..1000, fn key ->
     :ets.insert(:bag, {:bag, key})
   end)
   case :ets.take(:bag, :bag) do
