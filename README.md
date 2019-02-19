@@ -143,3 +143,19 @@ GetSet - GenServer              99.51 - 18.06x slower
 GetSet - Bag                    41.24 - 43.57x slower
 GetSet - Bag concurrent         33.95 - 52.93x slower
 ```
+
+### Kernel.put_in vs Map.put
+
+```
+Name                    ips        average  deviation         median         99th %
+Map.get/put          5.35 K      186.85 μs    ±33.53%         161 μs         443 μs
+Map.update           5.04 K      198.38 μs    ±31.63%         178 μs         501 μs
+[]Map.put            4.03 K      247.93 μs    ±33.97%         228 μs         579 μs
+Kernel.put_in        2.20 K      453.96 μs    ±27.55%         417 μs         985 μs
+
+Comparison:
+Map.get/put          5.35 K
+Map.update           5.04 K - 1.06x slower
+[]Map.put            4.03 K - 1.33x slower
+Kernel.put_in        2.20 K - 2.43x slower
+```
