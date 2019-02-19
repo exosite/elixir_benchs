@@ -159,3 +159,26 @@ Map.update           5.04 K - 1.06x slower
 []Map.put            4.03 K - 1.33x slower
 Kernel.put_in        2.20 K - 2.43x slower
 ```
+
+### List & String length
+```
+Name                                ips        average  deviation         median         99th %
+byte_size (only ascii)         27027.45      0.0370 ms    ±24.21%      0.0350 ms      0.0610 ms
+Kernel.length                    556.81        1.80 ms    ±29.18%        2.13 ms        2.64 ms
+Recursive list                   229.23        4.36 ms     ±6.66%        4.26 ms        5.57 ms
+String.to_charlist length         67.61       14.79 ms     ±5.00%       14.73 ms       16.98 ms
+Enum.reduce                       56.48       17.71 ms    ±11.94%       18.37 ms       25.40 ms
+Recursive string                  40.91       24.45 ms     ±2.28%       24.36 ms       26.63 ms
+String.length                      6.10      163.99 ms     ±2.63%      163.35 ms      180.55 ms
+String.codepoints length           3.13      319.48 ms     ±2.22%      316.74 ms      352.37 ms
+
+Comparison:
+byte_size (only ascii)         27027.45
+Kernel.length                    556.81 - 48.54x slower
+Recursive list                   229.23 - 117.91x slower
+String.to_charlist length         67.61 - 399.77x slower
+Enum.reduce                       56.48 - 478.51x slower
+Recursive string                  40.91 - 660.72x slower
+String.length                      6.10 - 4432.10x slower
+String.codepoints length           3.13 - 8634.85x slower
+```
