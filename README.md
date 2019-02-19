@@ -182,3 +182,19 @@ Recursive string                  40.91 - 660.72x slower
 String.length                      6.10 - 4432.10x slower
 String.codepoints length           3.13 - 8634.85x slower
 ```
+
+### List.fold vs Enum.reduce vs Recursive
+
+```
+Name                                          ips        average  deviation         median         99th %
+Recursive                                  185.70        5.39 ms    ±12.50%        5.26 ms        7.79 ms
+List.foldl with referenced function         63.97       15.63 ms     ±7.86%       15.44 ms       21.88 ms
+Enum.reduce                                 54.20       18.45 ms     ±6.95%       18.24 ms       24.26 ms
+List.foldl                                  52.16       19.17 ms     ±5.44%       19.04 ms       22.06 ms
+
+Comparison:
+Recursive                                  185.70
+List.foldl with referenced function         63.97 - 2.90x slower
+Enum.reduce                                 54.20 - 3.43x slower
+List.foldl                                  52.16 - 3.56x slower
+```
