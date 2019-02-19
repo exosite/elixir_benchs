@@ -1,3 +1,4 @@
+# Benchmark ISO date formatting
 
 current_time = :os.system_time(:microsecond)
 input_datas = Enum.map(1..1000, fn _ -> current_time + Enum.random(1..100_000_000_000) end)

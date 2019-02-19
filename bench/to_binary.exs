@@ -1,4 +1,4 @@
-
+# Various type to binary
 
 to_str = fn ->
   Enum.map(1..1000, fn num ->
@@ -12,7 +12,7 @@ integer = fn ->
   end)
 end
 
-integer2 = fn ->
+integer_with_case = fn ->
   Enum.map(1..1000, fn
     numb when is_atom(numb) -> Integer.to_string(numb)
     numb when is_binary(numb) -> Integer.to_string(numb)
@@ -41,7 +41,7 @@ list = fn ->
   end)
 end
 
-list2 = fn ->
+list_case = fn ->
   Enum.map(1..1000, fn
     numb when is_atom(numb) -> << numb :: binary >>
     numb when is_binary(numb) -> << numb :: binary >>
@@ -89,12 +89,12 @@ end
 
 # Start benchmark
 Benchee.run(%{
-  "to_str" => to_str,
-  "integer" => integer,
-  "integer2" => integer2,
-  "str" => str,
+  "to_string" => to_str,
+  "Integer" => integer,
+  "Integer with case" => integer_with_case,
+  "string format" => str,
   "list" => list,
-  "list2" => list2,
+  "list with case" => list_case,
   "inspect" => inspect,
-  "inspect2" => inspect2
+  "inspect with case" => inspect2
 }, time: 10, formatter_options: %{console: %{extended_statistics: true}})

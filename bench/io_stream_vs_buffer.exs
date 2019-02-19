@@ -1,3 +1,4 @@
+# IO stream vs buffer
 
 :ets.new(:concurrent, [:public, :named_table, write_concurrency: true, read_concurrency: true])
 {:ok, pid} = File.open("/tmp/bubu", [:write, :append])
@@ -35,6 +36,6 @@ stream = fn ->
 end
 
 Benchee.run(%{
-  "stream" => stream,
-  "buffer" => buffer
+  "Stream" => stream,
+  "Buffer" => buffer
 }, time: 10, parallel: 4, formatter_options: %{console: %{extended_statistics: true}})

@@ -1,3 +1,4 @@
+# Aggregate lists
 
 defmodule ListC do
   def concat([head | tail], acc) do
@@ -21,6 +22,6 @@ end
 
 # Start benchmark
 Benchee.run(%{
-  "custom" => custom,
-  "native" => native
+  "recursive [h|t]" => custom,
+  "native ++" => native
 }, time: 10, formatter_options: %{console: %{extended_statistics: true}})

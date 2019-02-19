@@ -1,19 +1,6 @@
+# Json encoding
 
 data = "lnkjsfasadf\"safdasfdsaF\"as;fas;flj;alkdsjfa;kdslfjal;jsfenoaspdf\asf;lkas;fjklas;jfdsadf\"safas;fljlkj\"sadfasffffffffffasdfsafd56789"
-
-jiffy = fn ->
-  Enum.reduce(1..1000, data, fn _, acc ->
-    :jiffy.encode(acc, [:use_nil])
-    <<?a, acc::binary>>
-  end)
-end
-
-inspect = fn ->
-  Enum.reduce(1..1000, data, fn _, acc ->
-    inspect(acc)
-    <<?a, acc::binary>>
-  end)
-end
 
 severity = "asf"
 
@@ -51,8 +38,30 @@ end
 list_obj = fn ->
   Enum.map(1..1000, fn numb ->
     numb = Integer.to_string(numb)
-    <<"{\"type\":\"call\",\"severity\":\"",severity::binary,"\",\"timestamp\":",
-    numb::binary,",\"elapsed\":",numb::binary,",\"tracking_id\":\"",severity::binary,"\",\"solution_id\":\"",severity::binary,"\",\"service\":\"",severity::binary,"\",\"service_type\":\"",severity::binary,"\",\"event\":\"",severity::binary,"\",\"message\":",numb::binary,",\"code\":",numb::binary,",\"data\":{\"processing_time\":",numb::binary,",\"data_in\":",numb::binary,",\"data_out\":",numb::binary,"}}">>
+    <<"{\"type\":\"call\",\"severity\":\"",severity::binary,
+    "\",\"timestamp\":",numb::binary,
+    ",\"elapsed\":",numb::binary,
+    ",\"tracking_id\":\"",severity::binary,
+    "\",\"solution_id\":\"",severity::binary,
+    "\",\"service\":\"",severity::binary,
+    "\",\"service_type\":\"",severity::binary,
+    "\",\"event\":\"",severity::binary,
+    "\",\"message\":",numb::binary,
+    ",\"code\":",numb::binary,
+    ",\"data\":{\"processing_time\":",numb::binary,
+    ",\"request\":", :jiffy.encode(%{
+      "a" => 1,
+      "b" => 2,
+      "c" => 3
+    })::binary,
+    ",\"response\":",:jiffy.encode(%{
+      "d" => 4,
+      "e" => 5,
+      "f" => 6
+    })::binary,
+    ",\"data_in\":",numb::binary,
+    ",\"data_out\":",numb::binary,
+    "}}">>
   end)
 end
 
@@ -134,9 +143,9 @@ end
 
 # Start benchmark
 Benchee.run(%{
-  "jiffy_obj" => jiffy_obj,
-  "jiffy_obj_atom" => jiffy_obj_atom,
-  "inspect" => inspect_obj,
-  "list" => list_obj,
-  "string" => string_obj
+  "Full jiffy encoding: key=strings" => jiffy_obj,
+  "Full jiffy encoding: key=atoms" => jiffy_obj_atom,
+  "Inspect" => inspect_obj,
+  "List with encoded values" => list_obj,
+  "String with encoded values" => string_obj
 }, time: 10, formatter_options: %{console: %{extended_statistics: true}})
