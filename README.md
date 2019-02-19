@@ -198,3 +198,19 @@ List.foldl with referenced function         63.97 - 2.90x slower
 Enum.reduce                                 54.20 - 3.43x slower
 List.foldl                                  52.16 - 3.56x slower
 ```
+
+### Regex
+
+```
+Name                                         ips        average  deviation         median         99th %
+Regex.run short & const                   486.07        2.06 ms    ±12.99%        1.95 ms        3.04 ms
+Regex.named_captures short                371.15        2.69 ms    ±12.00%        2.60 ms        3.78 ms
+Regex.named_captures short & const        365.34        2.74 ms    ±10.42%        2.63 ms        3.63 ms
+Regex.named_captures                      153.08        6.53 ms    ±14.84%        6.23 ms        9.88 ms
+
+Comparison:
+Regex.run short & const                   486.07
+Regex.named_captures short                371.15 - 1.31x slower
+Regex.named_captures short & const        365.34 - 1.33x slower
+Regex.named_captures                      153.08 - 3.18x slower
+```
