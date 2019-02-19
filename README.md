@@ -1,15 +1,22 @@
-# IsoTimeFormatting
-Benchmarking the iso8601 time formatting.
-
-1519875343417238 => "2018-03-01T03:35:43.417238Z"
+# Various Elixir benchmark to find out what is the most efficient patterns
 
 ## Prerequisite
 - Elixir 1.4.5
 - Erlang/OTP 19
 
-## Run it!
-1. `mix deps.get`
-2. `mix run bench/iso_time_formatting_bench.ex`
+
+## Do it!
+1. Copy an existing file from the bench folder
+2. Replace the function to bench and at the bottom which one to execute
+3. If needed udpate dependencies `mix deps.get`
+4. Run test `mix run bench/my_bench.ex`
+
+## Benchs
+
+### IsoTimeFormatting
+Benchmarking the iso8601 time formatting.
+
+1519875343417238 => "2018-03-01T03:35:43.417238Z"
 
 ## Current winner
 ```
