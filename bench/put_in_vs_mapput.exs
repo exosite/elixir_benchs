@@ -2,7 +2,15 @@
 
 map = fn ->
   Enum.reduce(1..1000, %{}, fn key, acc ->
-    Map.put(acc, key, Map.get(acc, key, 0) + key)
+    Map.has_key?(acc, key)
+    acc
+  end)
+end
+
+k = fn ->
+  Enum.reduce(1..1000, %{}, fn key, acc ->
+    Enum.member?(acc, key)
+    acc
   end)
 end
 
@@ -26,7 +34,8 @@ end
 
 Benchee.run(%{
   "Map.get/put" => map,
-  "[]Map.put" => map2,
-  "Map.update" => map_update,
-  "Kernel.put_in" => kernel
+  "k" => k,
+  # "[]Map.put" => map2,
+  # "Map.update" => map_update,
+  # "Kernel.put_in" => kernel
 }, time: 10, parallel: 1)
