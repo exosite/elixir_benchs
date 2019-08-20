@@ -32,9 +32,45 @@ kernel = fn ->
   end)
 end
 
+kernel_3 = fn ->
+  my_map = %{
+    foo: %{
+      bar: %{
+        baz: "my value"
+      }
+    }
+  }
+
+  Enum.reduce(1..1000, %{}, fn key, acc ->
+    put_in(my_map, [:foo, :bar, :baz], key)
+  end)
+end
+
+defmodule Recursion do
+  def put(map, [], _v), do: map
+  def put(map, [h], v), do: Map.put(map, h, v)
+  def put(map, [h|t], v), do: Map.put(map, h, Recursion.put(Map.get(map, h), t, v))
+end
+
+put_3 = fn ->
+  my_map = %{
+    foo2: %{
+      bar: %{
+        baz: "my value"
+      }
+    }
+  }
+
+  Enum.reduce(1..1000, %{}, fn key, acc ->
+    Recursion.put(my_map, [:foo2, :bar, :baz], key)
+  end)
+end
+
 Benchee.run(%{
-  "Map.get/put" => map,
-  "k" => k,
+  "put_3" => put_3,
+  "kernel_3" => kernel_3
+  # "Map.get/put" => map,
+  # "k" => k,
   # "[]Map.put" => map2,
   # "Map.update" => map_update,
   # "Kernel.put_in" => kernel

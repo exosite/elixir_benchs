@@ -160,6 +160,18 @@ Map.update           5.04 K - 1.06x slower
 Kernel.put_in        2.20 K - 2.43x slower
 ```
 
+**Nested 3 lvl**
+
+```
+Name               ips        average  deviation         median         99th %
+put_3           9.13 K      109.52 μs    ±15.83%         106 μs         186 μs
+kernel_3        3.42 K      292.71 μs    ±18.28%         278 μs         560 μs
+
+Comparison:
+put_3           9.13 K
+kernel_3        3.42 K - 2.67x slower
+```
+
 ### List & String length
 ```
 Name                                ips        average  deviation         median         99th %
