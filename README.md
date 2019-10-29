@@ -40,6 +40,18 @@ Erlang io_lib:format                    166.07 - 16.32x slower
 Timex formater                           26.50 - 102.30x slower
 ```
 
+### RFC2822 date formatting
+
+```
+Name              ips        average  deviation         median         99th %
+custom         414.66        2.41 ms    ±12.58%        2.33 ms        3.33 ms
+io_lib          50.65       19.74 ms    ±11.55%       19.85 ms       28.15 ms
+
+Comparison:
+custom         414.66
+io_lib          50.65 - 8.19x slower
+```
+
 ### Concat List
 
 ```
