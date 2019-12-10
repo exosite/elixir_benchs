@@ -16,7 +16,7 @@ defmodule IsoTimeFormatting.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [
-      applications: [:jiffy],
+      applications: [:jiffy, :poison],
       extra_applications: [:logger]
     ]
   end
@@ -35,6 +35,7 @@ defmodule IsoTimeFormatting.Mixfile do
       {:timex, "~> 3.0"},
       {:benchee, "~> 0.11.0", only: :dev},
       {:jiffy, "~> 0.15", override: true},
+      {:poison, "~> 2.1"}
     ]
   end
 end

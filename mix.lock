@@ -9,6 +9,7 @@
   "jiffy": {:hex, :jiffy, "0.15.2", "de266c390111fd4ea28b9302f0bc3d7472468f3b8e0aceabfbefa26d08cd73b7", [:rebar3], [], "hexpm"},
   "metrics": {:hex, :metrics, "1.0.1", "25f094dea2cda98213cecc3aeff09e940299d950904393b2a29d191c346a8486", [:rebar3], [], "hexpm"},
   "mimerl": {:hex, :mimerl, "1.0.2", "993f9b0e084083405ed8252b99460c4f0563e41729ab42d9074fd5e52439be88", [:rebar3], [], "hexpm"},
+  "poison": {:hex, :poison, "2.2.0", "4763b69a8a77bd77d26f477d196428b741261a761257ff1cf92753a0d4d24a63", [:mix], [], "hexpm"},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.1", "28a4d65b7f59893bc2c7de786dec1e1555bd742d336043fe644ae956c3497fbe", [:make, :rebar], [], "hexpm"},
   "timex": {:hex, :timex, "3.2.1", "639975eac45c4c08c2dbf7fc53033c313ff1f94fad9282af03619a3826493612", [:mix], [{:combine, "~> 0.10", [hex: :combine, repo: "hexpm", optional: false]}, {:gettext, "~> 0.10", [hex: :gettext, repo: "hexpm", optional: false]}, {:tzdata, "~> 0.1.8 or ~> 0.5", [hex: :tzdata, repo: "hexpm", optional: false]}], "hexpm"},
   "tzdata": {:hex, :tzdata, "0.5.16", "13424d3afc76c68ff607f2df966c0ab4f3258859bbe3c979c9ed1606135e7352", [:mix], [{:hackney, "~> 1.0", [hex: :hackney, repo: "hexpm", optional: false]}], "hexpm"},
