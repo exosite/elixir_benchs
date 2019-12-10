@@ -238,3 +238,13 @@ Regex.named_captures short                371.15 - 1.31x slower
 Regex.named_captures short & const        365.34 - 1.33x slower
 Regex.named_captures                      153.08 - 3.18x slower
 ```
+
+### Jiffy vs Poison
+
+```
+Comparison:
+jiffy encoding         476.55
+poison encoding        391.92 - 1.22x slower
+jiffy decoding         355.60 - 1.34x slower
+poison decoding        181.53 - 2.63x slower
+```

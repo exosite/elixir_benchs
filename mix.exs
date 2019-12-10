@@ -34,7 +34,7 @@ defmodule IsoTimeFormatting.Mixfile do
     [
       {:timex, "~> 3.0"},
       {:benchee, "~> 0.11.0", only: :dev},
-      {:jiffy, "~> 0.15", override: true},
+      {:jiffy, "~> 1.0"},
       {:poison, "~> 2.1"}
     ]
   end
